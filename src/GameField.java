@@ -4,16 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Random;
 
 public class GameField extends JPanel implements ActionListener {
     private final int SIZE = 320;
     private final int DOT_SIZE = 16;
     private final int ALL_DOTS = 400;
     private Image dot;
-    private Image apple;
-    private int appleX;
-    private int appleY;
+    private Apple apple = new Apple();
     private int[] x = new int[ALL_DOTS];
     private int[] y = new int[ALL_DOTS];
     private int dots;
@@ -40,17 +37,11 @@ public class GameField extends JPanel implements ActionListener {
         }
         Timer timer = new Timer(250, this);
         timer.start();
-        createApple();
+        new Apple();
     }
 
-    public void createApple() {
-        appleX = new Random().nextInt(20) * DOT_SIZE;
-        appleY = new Random().nextInt(20) * DOT_SIZE;
-    }
 
     public void loadImages() {
-        ImageIcon iia = new ImageIcon("apple.png");
-        apple = iia.getImage();
         ImageIcon iid = new ImageIcon("dot.png");
         dot = iid.getImage();
     }
@@ -59,16 +50,16 @@ public class GameField extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (inGame) {
-            g.drawImage(apple, appleX, appleY, this);
+            g.drawImage(apple.getImageApple(), apple.getAppleX(), apple.getAppleY(), this);
             for (int i = 0; i < dots; i++) {
                 g.drawImage(dot, x[i], y[i], this);
             }
-        }else {
+        } else {
             String str = "you lose";
-            Font font = new Font("Arial",Font.BOLD,30);
+            Font font = new Font("Arial", Font.BOLD, 30);
             g.setColor(Color.RED);
             g.setFont(font);
-            g.drawString(str,105,SIZE/2);
+            g.drawString(str, 105, SIZE / 2);
         }
     }
 
@@ -92,9 +83,9 @@ public class GameField extends JPanel implements ActionListener {
     }
 
     public void checkApple() {
-        if (x[0] == appleX && y[0] == appleY) {
+        if (x[0] == apple.getAppleX() && y[0] == apple.getAppleY()) {
             dots++;
-            createApple();
+            apple = new Apple();
         }
     }
 
