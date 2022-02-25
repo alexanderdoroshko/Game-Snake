@@ -17,7 +17,6 @@ public class GameField extends JPanel implements ActionListener {
     private int[] x = new int[ALL_DOTS];
     private int[] y = new int[ALL_DOTS];
     private int dots;
-    private Timer timer;
     private boolean left = false;
     private boolean right = true;
     private boolean up = false;
@@ -39,7 +38,7 @@ public class GameField extends JPanel implements ActionListener {
             x[i] = 48 - i * DOT_SIZE;
             y[i] = 48;
         }
-        timer = new Timer(250, this);
+        Timer timer = new Timer(250, this);
         timer.start();
         createApple();
     }
@@ -103,6 +102,7 @@ public class GameField extends JPanel implements ActionListener {
         for (int i = dots; i > 0; i--) {
             if (i > 4 && x[0] == x[i] && y[0] == y[i]) {
                 inGame = false;
+                break;
             }
         }
 
